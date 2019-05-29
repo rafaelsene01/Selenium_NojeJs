@@ -6,3 +6,8 @@ Sample project.
 ```
 npm install selenium-webdriver
 ```
+
+## Run
+```
+node ../google/scenarios/SimpleSearch.js
+```
