@@ -7,7 +7,7 @@ module.exports = {
             fs.writeFileSync(index + '_' + name + '.png', file, "base64");
         })
         var oldPath = index + '_' + name + '.png';
-        var newPath = 'E:/Automação-Selenium-NodeJs/google/output/' + data;
+        var newPath = '../output/' + data;
 
         moveFile(oldPath, newPath);
     },
@@ -25,8 +25,8 @@ async function moveFile(file, dir2) {
     var path = require('path');
 
     //create dir if not exist
-    if (!fs.existsSync("E:/Automação-Selenium-NodeJs/google/output/"))
-        fs.mkdirSync("E:/Automação-Selenium-NodeJs/google/output/");
+    if (!fs.existsSync("../output/"))
+        fs.mkdirSync("../output/");
     if (!fs.existsSync(dir2))
         fs.mkdirSync(dir2);
 
