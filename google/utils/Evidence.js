@@ -1,25 +1,31 @@
 const fs = require('fs');
 
-module.exports = {
-    takeEvidence: async function (driver, data, name, index) {
+let index = 0;
+const dateAndTime = getDateAndTime();
 
-        await driver.takeScreenshot().then(file => {
+var Evidence = function () {
+
+    this.takeEvidence = async function (webdriver, name) {
+        index++;
+        webdriver.takeScreenshot().then(file => {
             fs.writeFileSync(index + '_' + name + '.png', file, "base64");
-        })
-        var oldPath = index + '_' + name + '.png';
-        var newPath = '../output/' + data;
+        }).then(() => {
+            var oldPath = index + '_' + name + '.png';
+            var newPath = '../output/' + dateAndTime;
 
-        moveFile(oldPath, newPath);
-    },
-    getDateAndTime: function () {
-        const data = new Date();
-        return data.getDate() + "" + ((data.getMonth() + 1) < 10 ? ("0" + (data.getMonth() + 1)) : (data.getMonth() + 1)) + data.getFullYear() + "-" +
-            (data.getHours() < 10 ? ("0" + (data.getHours())) : data.getHours()) + (data.getMinutes() < 10 ? ("0" + (data.getMinutes())) : data.getMinutes());
+            moveFile(oldPath, newPath);
+        })
     }
 }
 
+function getDateAndTime() {
+    const data = new Date();
+    return data.getDate() + "" + ((data.getMonth() + 1) < 10 ? ("0" + (data.getMonth() + 1)) : (data.getMonth() + 1)) + data.getFullYear() + "-" +
+        (data.getHours() < 10 ? ("0" + (data.getHours())) : data.getHours()) + (data.getMinutes() < 10 ? ("0" + (data.getMinutes())) : data.getMinutes());
+}
+
 //moves the $file to $dir2
-async function moveFile(file, dir2) {
+function moveFile(file, dir2) {
     //include the fs, path modules
     //var fs = require('fs');
     var path = require('path');
@@ -39,3 +45,5 @@ async function moveFile(file, dir2) {
         else console.log('Successfully moved');
     });
 };
+
+module.exports = Evidence;

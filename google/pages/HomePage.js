@@ -1,15 +1,14 @@
-const screenShot = require('../utils/Evidence');
-const homeMap = require('../maps/homeMap');
+const homeMap = require('../maps/HomeMap');
+const Page = require('./BasePage');
 
-module.exports = {
+Page.prototype.search = async function (txt) {
+    let searchInput = await this.findByXPath(homeMap.inputPesquisarXPath);
+    await this.evidence('home')
+    await this.write(searchInput, txt);
+    await this.evidence('sendKeys')
+    let searchButton = await this.findByXPath(homeMap.buttonPesquisarXPath);
+    await searchButton.click();
+    await this.evidence('click')
+};
 
-    search: async function (driver, text) {
-        const data = await screenShot.getDateAndTime();
-        let index = 0;
-
-        await driver.get('http://www.google.com');
-        await screenShot.takeEvidence(driver, data, "home", index++)
-        await homeMap.inputPesquisar(driver, data, text, index++);
-        await homeMap.buttonPesquisar(driver, data, "pesquisar", index++);
-    }
-}
+module.exports = Page;

@@ -1,12 +1,22 @@
-const { Builder, By, Key, until } = require('selenium-webdriver');
-const HomePage = require('../pages/HomePage');
+const Page = require('../pages/HomePage');
 
 (async function () {
-    let driver = await new Builder().forBrowser('chrome').build();
+
+    homePage = new Page();
 
     try {
-        await HomePage.search(driver, "SoftBox");
+        await homePage.visit('https://www.google.com.br/')
+        await homePage.search("SoftBox");
+        await homePage.quit();
+    } catch (ex) {
+        console.log(new Error(ex.message));
     } finally {
-        await driver.quit();
+
     }
 })();
+
+// https://medium.com/@bmshamsnahid/automated-testing-with-selenium-webdriver-and-node-js-f99f64720352
+
+// https://github.com/bmshamsnahid/Automation-With-Selenium-And-Node.js/blob/master/utils/fakeData.js
+
+// https://github.com/rafaelsene01/Selenium_NojeJs/tree/master/google
